@@ -103,8 +103,15 @@ Function Invoke-UIRequest
     #endregion
 
     #region Query API
-    $Result = Invoke-RestMethod @UnifiAPI_InvokeRestMethod_Splat
-    $Result.data
+    Try
+    {
+      $Result = Invoke-RestMethod @UnifiAPI_InvokeRestMethod_Splat
+      $Result.data
+    }
+    Catch
+    {
+      $_.ErrorDetails.Message | ConvertFrom-Json
+    }
     #endregion
   }
 }
