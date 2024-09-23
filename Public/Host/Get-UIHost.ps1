@@ -14,12 +14,22 @@ Function Get-UIHost
 {
   [CmdletBinding()]
   Param
-  ()
+  (
+    [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Id
+  )
 
   Process
   {
     $URL = '/ea/hosts'
     $Headers = @{}
+
+    If ($null -ne $Id)
+    {
+      $URL += '/{0}' -f $Id
+    }
 
     $InvokeUnifiAPIRequest_Splat = @{
       URI = $URL
